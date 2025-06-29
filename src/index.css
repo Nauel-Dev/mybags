@@ -1,0 +1,175 @@
+:root {
+  --color-bg: #f4efe9;
+  --color-primary: #d35400;
+  --color-secondary: #16a085;
+  --color-accent: #7e5109;
+  --color-text: #2c3e50;
+  --color-light: #ffffff;
+  --color-emerald: #50c878;
+}
+
+body.bg {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+a { text-decoration: none; color: var(--color-secondary); }
+a:hover { color: var(--color-primary); }
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(255,255,255,0.9);
+  backdrop-filter: saturate(180%) blur(20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+.header .logo {
+  display: flex;
+  align-items: center;
+}
+.header .logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+.header .logo span {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+.header .nav-links a {
+  margin-left: 24px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+.header .nav-links a:hover { color: var(--color-secondary); }
+
+.text-center { text-align: center; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.section { padding: 100px 0; }
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+}
+.btn-primary:hover { background-color: var(--color-secondary); }
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 140px 16px 60px;
+}
+.hero-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--color-accent);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.rank-container { margin-top: 32px; text-align: center; }
+.rank-container p { font-size: 20px; margin-bottom: 12px; color: var(--color-secondary); }
+.ranks { display: flex; gap: 16px; justify-content: center; }
+.rank {
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: var(--color-bg);
+  font-weight: bold;
+  border: 2px solid var(--color-secondary);
+  color: var(--color-text);
+}
+.rank.bronze { background-color: #d6a15d; border-color: #7e5109; }
+.rank.silver { background-color: #bdc3c7; border-color: #95a5a6; }
+.rank.gold { background-color: #f1c40f; border-color: #b7950b; }
+.rank.diamond { background-color: #a3e4d7; border-color: #16a085; }
+.rank.active { outline: 3px solid var(--color-emerald); outline-offset: 2px; }
+
+
+.terminal {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--color-text);
+  color: var(--color-light);
+  padding: 20px;
+  border-radius: 4px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  min-height: 200px;
+  overflow-y: auto;
+  border: 2px solid var(--color-primary);
+}
+
+.about { background-color: var(--color-light); }
+.about h2 { font-size: 32px; margin-bottom: 16px; color: var(--color-primary); }
+.about p { font-size: 18px; color: var(--color-text); }
+
+.gallery { background-color: #eef1f3; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.gallery-item img {
+  width: 100%; height: 250px; object-fit: cover;
+  border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 3px solid var(--color-accent);
+}
+
+footer {
+  background-color: var(--color-light);
+  padding: 24px 0;
+}
+footer p { color: var(--color-text); }
+footer .social-links a { margin: 0 8px; color: var(--color-primary); }
+footer .social-links a:hover { color: var(--color-secondary); }
+.blink {
+  animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+/* Worker name styling */
+.worker-info {
+  text-align: center;
+}
+.worker-info .worker-name {
+  text-transform: capitalize;
+  font-size: 2rem;       /* adjust as needed */
+  margin: 0.5rem 0;
+  color: var(--color-primary); /* pick one primary color */
+}
+
+/* Glass‑laminated wallet display */
+.worker-info .glass-card {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+}
+.worker-info .wallet-display {
+  margin: 0;
+  font-size: 1rem;       /* adjust as needed */
+  color: var(--color-secondary); /* choose a complementary accent */
+  letter-spacing: 0.5px;
+}
