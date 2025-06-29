@@ -2,8 +2,7 @@ import React from 'react';
 
 export default function Header() {
   // Using logo image 'yourbag.png' placed in public/ranks folder
-  <img src="/ranks/yourbag.png" alt="YourBag Logo" />
-
+  const logoSrc = process.env.PUBLIC_URL + '/ranks/yourbag.png';
 
   return (
     <header className="header">
