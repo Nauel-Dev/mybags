@@ -10,7 +10,7 @@ export default function About() {
 
         <div className="about-steps">
           <div className="step colored-accent">
-            <h3>1. Connect Your Wallet</h3>
+            <h3>1. Paste Your Wallet Address</h3>
             <p>Paste your Solana address to start tracking your progress.</p>
           </div>
           <div className="step colored-primary">
