@@ -286,42 +286,90 @@ footer .social-links a:hover {
   font-size: 0.85rem;
   color: #666;
 }
-.about-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #ffd700;
-  text-shadow: 0 0 5px #ffc107, 0 0 10px #ffeb3b;
-}
-
-.about-subtitle {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #eee;
-}
-
-.about-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-}
-
 .step {
   max-width: 600px;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  background: #1a1a1a;
-  color: #fff;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-  transition: transform 0.3s ease;
+  padding: 1.5rem;
+  border-radius: 20px;
+  background-color: var(--color-light);
+  color: var(--color-text);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+
+  /* 3D Effects */
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 -4px 12px rgba(255, 255, 255, 0.3);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    perspective 0.3s ease;
+  text-align: center;
+  transform-style: preserve-3d;
+  perspective: 800px;
 }
 
 .step:hover {
-  transform: scale(1.02);
+  transform: translateY(-8px) rotateX(2deg) rotateY(1deg);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.2),
+    0 14px 30px rgba(0, 0, 0, 0.15),
+    0 -6px 16px rgba(255, 255, 255, 0.4);
 }
 
-.glow h3 {
-  color: #ffd700;
-  text-shadow: 0 0 8px #ffda44, 0 0 15px #ffc107;
+.step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  pointer-events: none;
+}
+
+/* Make section smaller vertically */
+.section.about {
+  padding: 3rem 1rem; /* Reduce vertical space */
+}
+
+/* Limit the max width and center the about content */
+.about .container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Reduce gap between steps */
+.about-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Reduced spacing between steps */
+  width: 100%;
+  align-items: center;
+}
+
+/* Optionally, display steps side by side on larger screens */
+@media (min-width: 768px) {
+  .about-steps {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .step {
+    flex: 1;
+    max-width: 280px;
+  }
+}
+
+/* Slightly smaller typography */
+.step h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  font-size: 0.95rem;
 }

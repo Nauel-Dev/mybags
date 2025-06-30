@@ -1,25 +1,25 @@
 import React from 'react';
-import './About.css'; // 👈 make sure this exists or put the CSS inline
+
 
 export default function About() {
   return (
     <section id="about" className="section about text-center">
       <div className="container">
         <h2 className="about-title">How To Work For $MYBAGS</h2>
-        <p className="about-subtitle">It’s simple: complete quests, rise through the ranks.</p>
+        <p className="about-subtitle">Earn credits, climb ranks, rule the board.</p>
 
         <div className="about-steps">
-          <div className="step glow">
+          <div className="step colored-accent">
             <h3>1. Connect Your Wallet</h3>
-            <p>Paste your Solana wallet to get started — we’ll save your progress.</p>
+            <p>Paste your Solana address to start tracking your progress.</p>
           </div>
-          <div className="step glow">
+          <div className="step colored-primary">
             <h3>2. Complete Missions</h3>
-            <p>Knock out simple quests. Each one earns you Bags Credits.</p>
+            <p>Simple tasks. Instant credits. Zero fluff.</p>
           </div>
-          <div className="step glow">
-            <h3>3. Climb Ranks & Compete</h3>
-            <p>Level up from Bronze to Diamond and see your name on the leaderboard.</p>
+          <div className="step colored-secondary">
+            <h3>3. Climb the Leaderboard</h3>
+            <p>Rank up from Bronze to Diamond. Prove you bag best.</p>
           </div>
         </div>
       </div>
