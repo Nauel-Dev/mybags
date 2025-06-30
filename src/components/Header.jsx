@@ -1,13 +1,12 @@
-import React from 'react';
+// src/components/Header.jsx
+import React from 'react'
+import logo from '../assets/ranks/yourbag.png' // <-- import image directly
 
 export default function Header() {
-  // Using logo image 'yourbag.png' placed in public/ranks folder
-  const logoSrc = process.env.PUBLIC_URL + '/ranks/yourbag.png';
-
   return (
     <header className="header">
       <div className="logo">
-        <img src={logoSrc} alt="YourBag Logo" />
+        <img src={logo} alt="YourBag Logo" />
         <span>YourBag</span>
       </div>
       <nav className="nav-links">
@@ -16,5 +15,5 @@ export default function Header() {
         <a href="#footer">Contact</a>
       </nav>
     </header>
-    )
+  )
 }
