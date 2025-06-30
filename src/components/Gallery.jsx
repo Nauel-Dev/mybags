@@ -1,11 +1,9 @@
-// src/components/Gallery.jsx
 import React from 'react';
 
-// Display 5 bag images from the gallery folder
+// Display 8 bag images from the gallery folder
 const items = Array.from({ length: 8 }).map((_, i) => ({
   id: i,
-  src: `/gallery/bag${i+1}.jpeg`
-,
+  src: `/gallery/bag${i + 1}.jpeg`,
 }));
 
 export default function Gallery() {
@@ -22,6 +20,10 @@ export default function Gallery() {
                   alt={`Bag ${item.id + 1}`}
                   className="gallery-image"
                   loading="lazy"
+                  onError={(e) => {
+                    // Hide the image if it fails to load
+                    e.target.style.display = 'none';
+                  }}
                 />
               </div>
             </div>
