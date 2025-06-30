@@ -18,24 +18,22 @@ export default function MissionsDashboard() {
 
   const textRef = useRef(null);
 
-  // Listen for wallet address changes
   useEffect(() => {
     const handler = () => setWalletAddress(localStorage.getItem('walletAddress') || '');
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);
   }, []);
 
-  // Morphing text effect with GSAP
   useEffect(() => {
-    const prepareText = () => {
-      if (!walletAddress) return 'Enter your Solana wallet address to proceed...';
-      const allDone = tasks.every(t => completed.includes(t.id));
-      return allDone
-        ? 'Missions Complete.'
-        : 'Complete all quests to unlock your next rank...';
-    };
+    if (!walletAddress) {
+      setPhase('wait');
+      return;
+    }
 
-    const newText = prepareText();
+    const allDone = tasks.every(t => completed.includes(t.id));
+    const newText = allDone
+      ? 'Missions Complete.'
+      : 'Complete all quests to unlock your next rank...';
 
     if (textRef.current) {
       gsap.to(textRef.current, {
@@ -48,14 +46,9 @@ export default function MissionsDashboard() {
       });
     }
 
-    // Update phase based on wallet address and completion
-    const allDone = tasks.every(t => completed.includes(t.id));
-    if (!walletAddress) setPhase('wait');
-    else if (allDone) setPhase('complete');
-    else setPhase('list');
+    setPhase(allDone ? 'complete' : 'list');
   }, [walletAddress, completed]);
 
-  // Persist credits and completed
   useEffect(() => {
     localStorage.setItem('credits', credits);
     localStorage.setItem('completedMissions', JSON.stringify(completed));
@@ -83,23 +76,22 @@ export default function MissionsDashboard() {
         <h3 style={{ textAlign: 'center', fontSize: '24px' }}>
           Missions ({getRank()})
         </h3>
-        <p
-          ref={textRef}
-          style={{
-            minHeight: '24px',
-            fontFamily: 'monospace',
-            textAlign: 'center',
-            opacity: 1,
-            transition: 'opacity 0.5s ease'
-          }}
-        >
-          {/* Initial text */}
-          {walletAddress
-            ? tasks.every(t => completed.includes(t.id))
-              ? 'Missions Complete.'
-              : 'Complete all quests to unlock your next rank...'
-            : 'Enter your Solana wallet address to proceed...'}
-        </p>
+
+        {walletAddress && (
+          <p
+            ref={textRef}
+            style={{
+              minHeight: '24px',
+              fontFamily: 'monospace',
+              textAlign: 'center',
+              opacity: 1,
+              transition: 'opacity 0.5s ease'
+            }}
+          >
+            {/* Initial text will be replaced by GSAP */}
+            Complete all quests to unlock your next rank...
+          </p>
+        )}
 
         {phase === 'list' && walletAddress && (
           <ul style={{ listStyle: 'none', padding: 0 }}>
@@ -121,7 +113,7 @@ export default function MissionsDashboard() {
           </ul>
         )}
 
-        {phase === 'wait' && !walletAddress && <WalletInput />}
+        {phase === 'wait' && <WalletInput />}
 
         {phase === 'complete' && (
           <div style={{ textAlign: 'center' }}>
@@ -139,7 +131,6 @@ export default function MissionsDashboard() {
           ))}
         </ul>
 
-        {/* Strategic Buttons */}
         <div className="missions-actions">
           <button onClick={() => window.location.href = '/'} className="btn btn-primary">
             Home
