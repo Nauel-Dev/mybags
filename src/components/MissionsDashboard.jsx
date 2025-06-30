@@ -11,15 +11,20 @@ export default function MissionsDashboard() {
     const saved = localStorage.getItem('completedMissions');
     return saved ? JSON.parse(saved) : [];
   });
+  const [mybagsHeld, setMybagsHeld] = useState(() => parseInt(localStorage.getItem('mybags') || '0', 10));
   const { leaderboard } = useContext(LeaderboardContext);
 
   const [walletAddress, setWalletAddress] = useState(localStorage.getItem('walletAddress') || '');
+  const [inputWallet, setInputWallet] = useState(walletAddress);
   const [phase, setPhase] = useState('typing');
-
+  const [popupImage, setPopupImage] = useState(null);
   const textRef = useRef(null);
 
   useEffect(() => {
-    const handler = () => setWalletAddress(localStorage.getItem('walletAddress') || '');
+    const handler = () => {
+      setWalletAddress(localStorage.getItem('walletAddress') || '');
+      setMybagsHeld(parseInt(localStorage.getItem('mybags') || '0', 10));
+    };
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);
   }, []);
@@ -54,18 +59,25 @@ export default function MissionsDashboard() {
     localStorage.setItem('completedMissions', JSON.stringify(completed));
   }, [credits, completed]);
 
-  const completeTask = (id, pts) => {
+  const completeTask = (id, basePts) => {
     if (!completed.includes(id)) {
-      setCredits(prev => prev + pts);
+      const bonus = Math.floor(basePts * (mybagsHeld * 0.02));
+      const total = basePts + bonus;
+      setCredits(prev => prev + total);
       setCompleted(prev => [...prev, id]);
     }
   };
 
   const getRank = () => {
-    if (credits >= 100) return 'Diamond';
-    if (credits >= 50) return 'Gold';
-    if (credits >= 20) return 'Silver';
+    if (credits >= 250) return 'Diamond';
+    if (credits >= 150) return 'Gold';
+    if (credits >= 60) return 'Silver';
     return 'Bronze';
+  };
+
+  const handleWalletSearch = () => {
+    localStorage.setItem('walletAddress', inputWallet);
+    setWalletAddress(inputWallet);
   };
 
   const refreshMissions = () => window.location.reload();
@@ -76,6 +88,38 @@ export default function MissionsDashboard() {
         <h3 style={{ textAlign: 'center', fontSize: '24px' }}>
           Missions ({getRank()})
         </h3>
+
+        {!walletAddress && (
+          <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+            <input
+              type="text"
+              value={inputWallet}
+              onChange={(e) => setInputWallet(e.target.value)}
+              placeholder="Enter Wallet Address"
+              style={{
+                padding: '8px',
+                borderRadius: '10px',
+                width: '80%',
+                maxWidth: '300px',
+                marginBottom: '10px'
+              }}
+            />
+            <br />
+            <button
+              onClick={handleWalletSearch}
+              style={{
+                backgroundColor: '#16a085',
+                color: '#fff',
+                padding: '8px 16px',
+                borderRadius: '12px',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Search Wallet
+            </button>
+          </div>
+        )}
 
         {walletAddress && (
           <p
@@ -88,7 +132,6 @@ export default function MissionsDashboard() {
               transition: 'opacity 0.5s ease'
             }}
           >
-            {/* Initial text will be replaced by GSAP */}
             Complete all quests to unlock your next rank...
           </p>
         )}
@@ -96,24 +139,68 @@ export default function MissionsDashboard() {
         {phase === 'list' && walletAddress && (
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {tasks.map(task => (
-              <li key={task.id} style={{ marginBottom: '10px' }}>
-                {task.description} - {task.points} pts
+              <li key={task.id} style={{ marginBottom: '32px' }}>
+                <div style={{ fontWeight: 'bold' }}>{task.description} - {task.points} pts</div>
+
+                <a
+                  href={task.linkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    color: '#00acee',
+                    marginTop: '4px',
+                    wordBreak: 'break-word'
+                  }}
+                >
+                  {task.linkText}
+                </a>
+
+                {task.image && (
+                  <img
+                    src={task.image}
+                    alt="Task Visual"
+                    onClick={() => setPopupImage(task.image)}
+                    style={{
+                      marginTop: '10px',
+                      borderRadius: '10px',
+                      width: '100%',
+                      maxWidth: '300px',
+                      height: 'auto',
+                      aspectRatio: '3 / 2',
+                      objectFit: 'cover',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s ease'
+                    }}
+                  />
+                )}
+
                 {completed.includes(task.id) ? (
                   <span style={{ marginLeft: '10px', color: 'lightgreen' }}>✓</span>
                 ) : (
                   <button
                     onClick={() => completeTask(task.id, task.points)}
-                    style={{ marginLeft: '10px', padding: '5px' }}
+                    style={{
+                      marginTop: '8px',
+                      padding: '6px 14px',
+                      borderRadius: '12px',
+                      backgroundColor: '#d35400',
+                      color: '#fff',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
                   >
                     Complete
                   </button>
                 )}
+
+                {/* Divider */}
+                <hr style={{ marginTop: '16px', borderColor: '#ccc' }} />
               </li>
             ))}
           </ul>
         )}
-
-        {phase === 'wait' && <WalletInput />}
 
         {phase === 'complete' && (
           <div style={{ textAlign: 'center' }}>
@@ -124,28 +211,82 @@ export default function MissionsDashboard() {
           </div>
         )}
 
-        <h3 style={{ marginTop: '40px', textAlign: 'center' }}></h3>
-        <ul style={{ listStyle: 'none', padding: 0, color: '#fff' }}>
+        <ul style={{ listStyle: 'none', padding: 0, color: '#fff', marginTop: '30px' }}>
           {leaderboard.map((user, index) => (
             <li key={index}>{user.name}: {user.points}</li>
           ))}
         </ul>
 
-        <div className="missions-actions">
-          <button onClick={() => window.location.href = '/'} className="btn btn-primary">
+        <div className="missions-actions" style={{ marginTop: '20px', textAlign: 'center' }}>
+          <button
+            onClick={() => window.location.href = '/'}
+            style={{
+              borderRadius: '12px',
+              margin: '5px',
+              padding: '8px 16px',
+              backgroundColor: '#2980b9',
+              color: '#fff',
+              border: 'none'
+            }}
+          >
             Home
           </button>
           <button
             onClick={() => window.open('https://x.com/i/communities/1933583099096625391', '_blank')}
-            className="btn btn-secondary"
+            style={{
+              borderRadius: '12px',
+              margin: '5px',
+              padding: '8px 16px',
+              backgroundColor: '#8e44ad',
+              color: '#fff',
+              border: 'none'
+            }}
           >
             Community
           </button>
-          <button onClick={refreshMissions} className="btn btn-accent">
+          <button
+            onClick={refreshMissions}
+            style={{
+              borderRadius: '12px',
+              margin: '5px',
+              padding: '8px 16px',
+              backgroundColor: '#27ae60',
+              color: '#fff',
+              border: 'none'
+            }}
+          >
             Refresh Missions
           </button>
         </div>
       </div>
+
+      {/* Image Popup Modal */}
+      {popupImage && (
+        <div
+          onClick={() => setPopupImage(null)}
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            cursor: 'zoom-out'
+          }}
+        >
+          <img
+            src={popupImage}
+            alt="Zoomed Task"
+            style={{
+              maxWidth: '90%',
+              maxHeight: '90%',
+              borderRadius: '10px',
+              boxShadow: '0 0 20px rgba(255,255,255,0.2)'
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
