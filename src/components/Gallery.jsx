@@ -4,7 +4,8 @@ import React from 'react';
 // Display 5 bag images from the gallery folder
 const items = Array.from({ length: 8 }).map((_, i) => ({
   id: i,
-  src: process.env.PUBLIC_URL + `/gallery/bag${i + 1}.jpeg`,
+  src: `/gallery/bag${i+1}.jpeg`
+,
 }));
 
 export default function Gallery() {
