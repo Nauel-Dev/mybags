@@ -124,7 +124,7 @@ export default function MissionsDashboard() {
           </div>
         )}
 
-        <h3 style={{ marginTop: '40px', textAlign: 'center' }}>Global Leaderboard</h3>
+        <h3 style={{ marginTop: '40px', textAlign: 'center' }}></h3>
         <ul style={{ listStyle: 'none', padding: 0, color: '#fff' }}>
           {leaderboard.map((user, index) => (
             <li key={index}>{user.name}: {user.points}</li>

@@ -88,7 +88,7 @@ export default function Hero() {
       </div>
 
       <div className="terminal">
-        <WalletInput />
+      
         <MissionsDashboard />
       </div>
     </section>
