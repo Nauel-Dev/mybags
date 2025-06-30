@@ -1,10 +1,20 @@
 import React from 'react';
 
-// Display 8 bag images from the gallery folder
-const items = Array.from({ length: 8 }).map((_, i) => ({
-  id: i,
-  src: `/gallery/bag${i + 1}.jpeg`,
-}));
+// Dynamically import bag images from src/assets/gallery to ensure they're bundled
+const items = Array.from({ length: 8 }).map((_, i) => {
+  let src;
+  try {
+    // Move your gallery images into src/assets/gallery/
+    src = require(`../assets/gallery/bag${i + 1}.jpeg`);
+  } catch (err) {
+    console.warn(`Image gallery/bag${i + 1}.jpeg not found, using placeholder.`);
+    src = require(`../assets/gallery/placeholder.jpeg`);
+  }
+  return {
+    id: i,
+    src,
+  };
+});
 
 export default function Gallery() {
   return (
@@ -20,8 +30,8 @@ export default function Gallery() {
                   alt={`Bag ${item.id + 1}`}
                   className="gallery-image"
                   loading="lazy"
-                  onError={(e) => {
-                    // Hide the image if it fails to load
+                  onError={e => {
+                    // In case placeholder also missing, hide broken images
                     e.target.style.display = 'none';
                   }}
                 />
