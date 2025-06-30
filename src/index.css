@@ -286,3 +286,42 @@ footer .social-links a:hover {
   font-size: 0.85rem;
   color: #666;
 }
+.about-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+  text-shadow: 0 0 5px #ffc107, 0 0 10px #ffeb3b;
+}
+
+.about-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #eee;
+}
+
+.about-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.step {
+  max-width: 600px;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.step:hover {
+  transform: scale(1.02);
+}
+
+.glow h3 {
+  color: #ffd700;
+  text-shadow: 0 0 8px #ffda44, 0 0 15px #ffc107;
+}
