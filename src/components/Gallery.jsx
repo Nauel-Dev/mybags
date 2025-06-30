@@ -1,20 +1,17 @@
-import React from 'react';
+// src/components/Gallery.jsx
+import React from 'react'
 
-// Dynamically import bag images from src/assets/gallery to ensure they're bundled
-const items = Array.from({ length: 8 }).map((_, i) => {
-  let src;
-  try {
-    // Move your gallery images into src/assets/gallery/
-    src = require(`../assets/gallery/bag${i + 1}.jpeg`);
-  } catch (err) {
-    console.warn(`Image gallery/bag${i + 1}.jpeg not found, using placeholder.`);
-    src = require(`../assets/gallery/placeholder.jpeg`);
-  }
-  return {
-    id: i,
-    src,
-  };
-});
+// Import each image directly from src/assets/gallery
+import bag1 from '../assets/gallery/bag1.jpeg'
+import bag2 from '../assets/gallery/bag2.jpeg'
+import bag3 from '../assets/gallery/bag3.jpeg'
+import bag4 from '../assets/gallery/bag4.jpeg'
+import bag5 from '../assets/gallery/bag5.jpeg'
+import bag6 from '../assets/gallery/bag6.jpeg'
+import bag7 from '../assets/gallery/bag7.jpeg'
+import bag8 from '../assets/gallery/bag8.jpeg'
+
+const images = [bag1, bag2, bag3, bag4, bag5, bag6, bag7, bag8]
 
 export default function Gallery() {
   return (
@@ -22,18 +19,14 @@ export default function Gallery() {
       <div className="container text-center">
         <h2>BAG WORKERS</h2>
         <div className="gallery-grid">
-          {items.map(item => (
-            <div key={item.id} className="gallery-item">
+          {images.map((src, idx) => (
+            <div key={idx} className="gallery-item">
               <div className="image-wrapper">
                 <img
-                  src={item.src}
-                  alt={`Bag ${item.id + 1}`}
+                  src={src}
+                  alt={`Bag ${idx + 1}`}
                   className="gallery-image"
                   loading="lazy"
-                  onError={e => {
-                    // In case placeholder also missing, hide broken images
-                    e.target.style.display = 'none';
-                  }}
                 />
               </div>
             </div>
@@ -41,5 +34,5 @@ export default function Gallery() {
         </div>
       </div>
     </section>
-  );
+  )
 }
